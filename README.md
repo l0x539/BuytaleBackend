@@ -56,7 +56,7 @@ Register a new user.
 
 * Edit Profile:
 	- `/profile`
-		Method: `POST`.
+		Method: `PUT`.
 		Params:
 ```
 {
