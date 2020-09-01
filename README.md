@@ -1,6 +1,6 @@
 # Buytale BackEnd:
 
-This the official Buytale backend source code, all rights reserved to [https://hytalehub.com](Hytale Hub LLC).
+This the official Buytale backend source code, all rights reserved to [Hytale Hub LLC](https://hytalehub.com).
 
 ## TITLE 1:
 
