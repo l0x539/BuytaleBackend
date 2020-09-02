@@ -20,4 +20,10 @@ CREATE TABLE profiles (
 	PRIMARY KEY (user_uuid)
 );
 
-
+CREATE TABLE forgotten_passwords (
+	id SERIAL NOT NULL,
+	email VARCHAR(320) NOT NULL,
+	token VARCHAR(64) NOT NULL,
+	ip_addr inet,
+	created_at timestamp
+);

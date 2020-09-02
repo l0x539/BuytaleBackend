@@ -31,5 +31,5 @@ EditProfile = (req, res, next) => {
 
 module.exports = {
     getUser,
-    EditProfile
+    EditProfile,
 }
