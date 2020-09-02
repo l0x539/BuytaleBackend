@@ -19,7 +19,7 @@ router.post('/login', loggedInCheck, checkLoginInput, loginApi);
 router.post('/register', loggedInCheck, registerInputCheck, registerApi);
 
 // Update Password:
-router.post('/update-password', prepareUpdatePassword, notLoggedInCheck, passwdCheck, updatePassword)
+router.put('/update-password', prepareUpdatePassword, notLoggedInCheck, passwdCheck, updatePassword)
 
 // Forgot Password:
 router.post('/forgot-password', loggedInCheck, emailCheck, forgotPasswd)

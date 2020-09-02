@@ -54,6 +54,17 @@ Register a new user.
 }
 ```
 
+* Update Password:
+	- `/update-password`
+		Method: `PUT`
+		Params:
+```
+{
+	token     // +* Required if not registered, optional if registered
+	password  // * Required
+}
+```
+
 * Edit Profile:
 	- `/profile`
 		Method: `PUT`.
