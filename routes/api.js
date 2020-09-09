@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { loginApi, registerApi, prepareUpdatePassword, updatePassword, forgotPasswd } = require("../API/Sign");
+const { loginApi, registerApi, logoutApi, prepareUpdatePassword, updatePassword, forgotPasswd } = require("../API/Sign");
 const { getUser, EditProfile } = require("../API/coreAPI");
 const { loggedInCheck, checkLoginInput, registerInputCheck, notLoggedInCheck, editProfileCheck, emailCheck, passwdCheck } = require("../utils/functions")
 
@@ -10,6 +10,9 @@ const router = express.Router();
 /* GET requests */
 // Get user infos.
 router.get('/user', notLoggedInCheck, getUser)
+
+// Logout user:
+router.get('/logout', notLoggedInCheck, logoutApi);
 
 /* POST requets */
 // Login user:

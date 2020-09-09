@@ -12,6 +12,7 @@ CREATE TABLE profiles (
 	more_emails TEXT,
 	firstname VARCHAR(30) NOT NULL,
 	lastname VARCHAR(30) NOT NULL,
+	avatar TEXT,
 	registered timestamp,
 	last_login timestamp,
 	last_update timestamp,
