@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const logger = require('morgan');
 const compression = require('compression');
+const helmet = require('helmet');
 
 const apiRouter = require('./routes/api');
 
@@ -29,6 +30,8 @@ app.use(session({
 if (process.env.NODE_ENV === 'production') {
   app.use(compression());
 }
+
+app.use(helmet());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
