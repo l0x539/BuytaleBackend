@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const multer = require("multer");
 
 checkEmail = (email) => /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)
 
@@ -77,7 +78,11 @@ const passwdCheck = (req, res, next) => {
   else
     next()
 }
-  
+
+const upload = multer({
+  dest: "../tmp/uploads/"
+});
+
 module.exports = {
     loggedInCheck,
     checkLoginInput,
@@ -87,5 +92,6 @@ module.exports = {
     emailCheck,
     passwdCheck,
     hashPasswd,
-    loginPasswd
+    loginPasswd,
+    upload
   }

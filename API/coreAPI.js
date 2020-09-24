@@ -1,13 +1,19 @@
 const { db } = require("../database/db");
+const path = require("path");
+const fs = require("fs");
+const mmm = require('mmmagic');
+const { v4: uuidv4 } = require('uuid');
 
-getUser = (req, res, next) => {
+Magic = mmm.Magic;
+
+const getUser = (req, res, next) => {
     db.select("*").from('profiles')
         .where("user_uuid", "=", req.session.userUUID)
         .then(user => res.json(user))
         .catch(err => res.json(err.stack))
 }
 
-EditProfile = (req, res, next) => {
+const EditProfile = (req, res, next) => {
     const { emails, firstname, lastname } = req.body
     db.select('*').from('profiles')
         .where('user_uuid', '=', req.session.userUUID)
@@ -29,7 +35,53 @@ EditProfile = (req, res, next) => {
         })
 }
 
+const handleError = (err, res) => {
+    console.log(err)
+    res.status(500)
+       .json("Oops! Something went wrong!");
+};
+
+const EditProfilePicture = (req, res, next) => {
+    const tempPath = req.file.path;
+    const magic = new Magic(mmm.MAGIC_MIME_TYPE | mmm.MAGIC_MIME_ENCODING);
+    magic.detectFile(tempPath, function(err, result) {
+        if (err) throw err;
+        if (new RegExp(["png", "jpeg", "jpg", "gif"].join("|")).test(result) 
+            && (path.extname(req.file.originalname).toLowerCase() === ".png"
+                || path.extname(req.file.originalname).toLowerCase() === ".jpg"
+                || path.extname(req.file.originalname).toLowerCase() === ".jpeg"
+                || path.extname(req.file.originalname).toLowerCase() === ".gif"
+                )) {
+            const newfilename = uuidv4() + path.extname(req.file.originalname).toLowerCase();
+            const targetPath = path.join(__dirname, "../public/uploads/profilepictures/" + newfilename); 
+            db('profiles')
+                .where("user_uuid", "=", req.session.userUUID)
+                .update({
+                    avatar: newfilename
+                })
+                .then(data => {
+                    fs.rename(tempPath, targetPath, err => {
+                        if (err) return handleError(err, res);
+                
+                        res.status(200)
+                           .json(["File uploaded!", {newfilename}]);
+                    });
+                })
+            
+        } else {
+            fs.unlink(tempPath, err => {
+                if (err) return handleError(err, res);
+        
+                res
+                .status(403)
+                .json("Only png/jpg/gif files are allowed!");
+            });
+        }
+    });
+}
+
 module.exports = {
     getUser,
     EditProfile,
+    EditProfilePicture
 }

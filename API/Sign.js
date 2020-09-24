@@ -2,6 +2,14 @@ const { db } = require("../database/db");
 const { randomBytes } = require('crypto');
 const { checkPasswd, hashPasswd, loginPasswd } = require('../utils/functions')
 
+
+const loggedin = (req, res, next) => {
+  if (req.session.loggedIn === true) {
+    res.json("logged in")
+  } else {
+    res.status(400).json("Not logged in")
+  }
+}
 const loginApi = (req, res, next) => {
     const { email, password } = req.body;
     db.select('email', 'hash').from('logins')
@@ -130,6 +138,7 @@ const prepareUpdatePassword = (req, res, next) => {
 
 
 module.exports = {
+    loggedin,
     loginApi,
     registerApi,
     logoutApi,

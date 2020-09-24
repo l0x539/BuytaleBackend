@@ -1,15 +1,18 @@
 const express = require('express');
 
-const { loginApi, registerApi, logoutApi, prepareUpdatePassword, updatePassword, forgotPasswd } = require("../API/Sign");
-const { getUser, EditProfile } = require("../API/coreAPI");
-const { loggedInCheck, checkLoginInput, registerInputCheck, notLoggedInCheck, editProfileCheck, emailCheck, passwdCheck } = require("../utils/functions")
+const { loggedin, loginApi, registerApi, logoutApi, prepareUpdatePassword, updatePassword, forgotPasswd } = require("../API/Sign");
+const { getUser, EditProfile, EditProfilePicture } = require("../API/coreAPI");
+const { loggedInCheck, checkLoginInput, registerInputCheck, notLoggedInCheck, editProfileCheck, emailCheck, passwdCheck, upload } = require("../utils/functions")
 
 const router = express.Router();
 
 
 /* GET requests */
 // Get user infos.
-router.get('/user', notLoggedInCheck, getUser)
+router.get('/@me', notLoggedInCheck, getUser)
+
+// Check if user logged in
+router.get("/loggedin", loggedin)
 
 // Logout user:
 router.get('/logout', notLoggedInCheck, logoutApi);
@@ -28,7 +31,9 @@ router.put('/update-password', prepareUpdatePassword, notLoggedInCheck, passwdCh
 router.post('/forgot-password', loggedInCheck, emailCheck, forgotPasswd)
 
 /* PUT requests */
-// Update User Prodile:
+// Update User Profile:
 router.put('/editprofile', notLoggedInCheck, editProfileCheck, EditProfile)
+// Update User Profile Picture:
+router.post('/editprofile/picture', notLoggedInCheck, upload.single("avatar"), EditProfilePicture)
 
 module.exports = router;
