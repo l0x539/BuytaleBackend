@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const logger = require('morgan');
+const compression = require('compression');
 
 const apiRouter = require('./routes/api');
 
@@ -24,6 +25,10 @@ app.use(session({
       expires: 600000
   }
 }));
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(compression());
+}
 
 app.use(express.static(path.join(__dirname, 'public')));
 
