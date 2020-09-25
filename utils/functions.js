@@ -80,7 +80,7 @@ const passwdCheck = (req, res, next) => {
 }
 
 const upload = multer({
-  dest: "../tmp/uploads/"
+  dest: "/tmp/"
 });
 
 module.exports = {
