@@ -21,10 +21,10 @@ const EditProfile = (req, res, next) => {
             db('profiles')
                 .where("user_uuid", "=", req.session.userUUID)
                 .update({
-                    more_emails: emails && !req.emails?emails.split(",").map(item => item.trim()).join():user[0].more_emails,
-                    firstname: firstname && !req.firstname?firstname:user[0].firstname,
-                    lastname: lastname && !req.lastname?lastname:user[0].lastname,
-                    last_updated: new Date()
+                    more_emails: emails && !req.emails?emails.split(",").map(item => item.trim()).join():undefined,
+                    firstname: firstname && !req.firstname?firstname:undefined,
+                    lastname: lastname && !req.lastname?lastname:undefined,
+                    last_update: new Date()
                 })
                 .then(data => res.json({
                     success: data, 
